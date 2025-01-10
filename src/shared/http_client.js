@@ -1,7 +1,16 @@
+const formatUrl = (base, endpoint) => {
+  const baseUrl = base.endsWith('/') ? base.slice(0, -1) : base;
+  const formattedEndpoint = endpoint.startsWith('/')
+    ? endpoint.slice(1)
+    : endpoint;
+
+  return `${baseUrl}/${formattedEndpoint}`;
+};
+
 const httpClient = {
   async fetch({ url, endpoint = '', apiKey, options = {} }) {
     const response = await fetch(
-      new URL(endpoint, url || process.env.BOLD_API_URL).href,
+      formatUrl(url || process.env.BOLD_API_URL, endpoint),
       {
         ...options,
         headers: {
