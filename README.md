@@ -1,4 +1,4 @@
-# bold
+# bold-api-sdk
 
 A Node.js library for interacting with the Bold API, providing seamless integration to manage payments, customers, and transactions efficiently.
 
