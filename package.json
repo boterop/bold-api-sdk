@@ -1,6 +1,6 @@
 {
   "name": "bold-api-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Node.js library for interacting with the Bold API, providing seamless integration to manage payments, customers, and transactions efficiently.",
   "main": "src/app.js",
   "repository": "https://github.com/boterop/bold-api-sdk",
