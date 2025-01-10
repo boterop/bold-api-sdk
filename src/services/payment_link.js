@@ -1,10 +1,34 @@
 const { httpClient } = require('../shared');
 
-exports.create = async (apiKey, order, amount, callback_url) => {
-  const expirationMinutes = 30;
+exports.create = async (
+  apiKey,
+  {
+    amountType = 'OPEN',
+    description,
+    payerEmail,
+    amount,
+    callbackUrl,
+    expirationMinutes,
+    currency,
+  },
+) => {
+  if (amountType !== 'CLOSE' && amountType !== 'OPEN') {
+    throw new Error('Invalid amount type, must be CLOSE or OPEN');
+  }
+
   const currentNanoseconds = Date.now() * 1e6;
-  const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
+  const minutesInNanoseconds = (expirationMinutes || 30) * 60 * 1e9;
   const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
+
+  const amountOpt =
+    amountType === 'CLOSE'
+      ? {
+          amount: {
+            total_amount: amount || 0,
+            currency: currency || 'COP',
+          },
+        }
+      : {};
 
   return httpClient.fetch({
     endpoint: '/online/link/v1',
@@ -12,15 +36,12 @@ exports.create = async (apiKey, order, amount, callback_url) => {
     options: {
       method: 'POST',
       body: JSON.stringify({
-        amount_type: 'CLOSE',
-        amount: {
-          total_amount: amount,
-          currency: 'COP',
-        },
-        description: `Payment for order ${order.id}`,
+        amount_type: amountType,
+        ...amountOpt,
+        description: description || '',
         expiration_date: futureNanoseconds,
-        callback_url,
-        payer_email: order.email,
+        callback_url: callbackUrl || '',
+        payer_email: payerEmail || '',
       }),
     },
   });
