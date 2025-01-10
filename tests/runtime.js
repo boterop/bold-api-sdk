@@ -1,0 +1,3 @@
+beforeEach(() => {
+  global.fetch.mockClear();
+});
