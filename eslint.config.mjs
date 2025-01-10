@@ -8,7 +8,7 @@ export default [
     ignores: ['coverage/', 'node_modules/'],
   },
   {
-    files: ['src/**/*.js'],
+    files: ['**/*.js'],
     languageOptions: { sourceType: 'commonjs' },
   },
   { languageOptions: { globals: globals.node } },
