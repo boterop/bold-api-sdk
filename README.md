@@ -7,7 +7,7 @@ A Node.js library for interacting with the Bold API, providing seamless integrat
 ## Installation
 
 ```bash
-npm install bold
+npm install bold-api-sdk
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install bold
 ### Payment Link
 
 ```js
-import { paymentLink } from 'bold';
+import { paymentLink } from 'bold-api-sdk';
 
 const response = await paymentLink.create('bold-identity-key', {
   amountType: 'CLOSE',
@@ -33,7 +33,7 @@ console.log(response);
 or
 
 ```js
-import { paymentLink } from 'bold';
+import { paymentLink } from 'bold-api-sdk';
 
 const response = await paymentLink.create('bold-identity-key', {
   amountType: 'OPEN',
@@ -61,7 +61,7 @@ console.log(response);
 ### Payment Methods
 
 ```js
-import { paymentMethods } from 'bold';
+import { paymentMethods } from 'bold-api-sdk';
 
 const response = await paymentMethods.list('bold-identity-key');
 
