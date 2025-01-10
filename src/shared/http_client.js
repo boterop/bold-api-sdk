@@ -8,9 +8,12 @@ const formatUrl = (base, endpoint) => {
 };
 
 const httpClient = {
-  async fetch({ url, endpoint = '', apiKey, options = {} }) {
-    const response = await fetch(
-      formatUrl(url || process.env.BOLD_API_URL, endpoint),
+  fetch: async ({ url, endpoint = '', apiKey, options = {} }) =>
+    fetch(
+      formatUrl(
+        url || process.env.BOLD_API_URL || 'https://integrations.api.bold.co',
+        endpoint,
+      ),
       {
         ...options,
         headers: {
@@ -19,9 +22,7 @@ const httpClient = {
           ...options.headers,
         },
       },
-    );
-    return await response.json();
-  },
+    ).then(response => response.json()),
 };
 
 module.exports = httpClient;
