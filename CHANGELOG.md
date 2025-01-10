@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 (10.01.2025)
+
+- Automatically publish to npm
+
 ## 0.1.0 (10.01.2025)
 
 - Initial release

@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/boterop/bold/badge.svg?branch=main)](https://coveralls.io/github/boterop/bold?branch=main)
+
 # bold-api-sdk
 
 A Node.js library for interacting with the Bold API, providing seamless integration to manage payments, customers, and transactions efficiently.
