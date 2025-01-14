@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/boterop/bold/badge.svg?branch=main)](https://coveralls.io/github/boterop/bold?branch=main)
+![NPM Type Definitions](https://img.shields.io/npm/types/bold-api-sdk)
 
 # bold-api-sdk
 
@@ -11,6 +12,8 @@ npm install bold-api-sdk
 ```
 
 ## Usage
+
+[Create api key](https://www.developers.bold.co/pagos-en-linea/llaves-de-integracion)
 
 ### Payment Link
 
