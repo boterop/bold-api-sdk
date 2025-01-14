@@ -1,8 +1,7 @@
 const paymentLinkService = require('../services/payment_link');
 
 const paymentLink = {
-  create: async (apiKey, order, amount, callback_url) =>
-    paymentLinkService.create(apiKey, order, amount, callback_url),
+  create: async (apiKey, order) => paymentLinkService.create(apiKey, order),
 };
 
 module.exports = paymentLink;
