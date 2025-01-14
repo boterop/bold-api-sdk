@@ -9,11 +9,14 @@ describe('paymentLink', () => {
     const callbackUrl = 'https://example.org/return';
     const expirationMinutes = 30;
     const currency = 'USD';
+    const apiKey = 'bold-api-key';
+
+    beforeEach(() => {
+      process.env.BOLD_API_URL = 'https://example.org';
+    });
 
     it('should return a payment link', async () => {
-      process.env.BOLD_API_URL = 'https://example.org';
-
-      const response = await paymentLink.create('bold-api-key', {
+      const response = await paymentLink.create(apiKey, {
         amountType,
         description,
         payerEmail,
@@ -37,11 +40,8 @@ describe('paymentLink', () => {
       expect(body.payer_email).toBe(payerEmail);
     });
 
-    it('should not send amount if type is not CLOSE', async () => {
-      process.env.BOLD_API_URL = 'https://example.org';
-
-      const response = await paymentLink.create('bold-api-key', {
-        amountType: 'OPEN',
+    it('should not send amount if type is OPEN', async () => {
+      const response = await paymentLink.create(apiKey, {
         description,
         payerEmail,
         amount,
@@ -54,6 +54,48 @@ describe('paymentLink', () => {
 
       expect(url).toBe('https://example.org/online/link/v1');
       expect(body.amount).toBeUndefined();
+    });
+
+    it('should set default values if not provided', async () => {
+      const response = await paymentLink.create(apiKey, {
+        amountType,
+      });
+
+      const { options } = response;
+      const body = JSON.parse(options.body);
+
+      const expirationMinutes = 30;
+      const currentNanoseconds = Date.now() * 1e6;
+      const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
+      const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
+
+      expect(body.amount_type).toBe('CLOSE');
+      expect(body.amount.total_amount).toBe(0);
+      expect(body.amount.currency).toBe('COP');
+      expect(Math.abs(body.expiration_date - futureNanoseconds)).toBeLessThan(
+        0.1 * 1e9,
+      );
+      expect(body.callback_url).toBe('');
+      expect(body.payer_email).toBe('');
+      expect(body.description).toBe('');
+    });
+
+    it('should send error if amount type is not CLOSE or OPEN', async () => {
+      try {
+        await paymentLink.create(apiKey, {
+          amountType: 'INVALID',
+          description,
+          payerEmail,
+          amount,
+          callbackUrl,
+          expirationMinutes,
+          currency,
+        });
+      } catch (error) {
+        expect(error.message).toBe(
+          'Invalid amount type, must be CLOSE or OPEN',
+        );
+      }
     });
   });
 });

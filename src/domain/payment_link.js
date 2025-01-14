@@ -1,4 +1,4 @@
-const paymentLinkService = require('../services/payment_link');
+const { paymentLinkService } = require('../services');
 
 const paymentLink = {
   create: async (apiKey, order) => paymentLinkService.create(apiKey, order),

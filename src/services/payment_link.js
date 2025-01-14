@@ -8,7 +8,7 @@ exports.create = async (
     payerEmail,
     amount,
     callbackUrl,
-    expirationMinutes,
+    expirationMinutes = 30,
     currency,
   },
 ) => {
@@ -17,7 +17,7 @@ exports.create = async (
   }
 
   const currentNanoseconds = Date.now() * 1e6;
-  const minutesInNanoseconds = (expirationMinutes || 30) * 60 * 1e9;
+  const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
   const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
 
   const amountOpt =
