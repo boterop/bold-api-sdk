@@ -6,6 +6,7 @@
   "repository": "https://github.com/boterop/bold-api-sdk",
   "author": "Santiago Botero Pelaez",
   "license": "MIT",
+  "types": "src/app.d.ts",
   "scripts": {
     "start": "node --env-file .env --watch src/app.js",
     "test": "NODE_ENV=test node --experimental-vm-modules --max-old-space-size=8192 node_modules/jest/bin/jest.js --detectOpenHandles --runInBand",
