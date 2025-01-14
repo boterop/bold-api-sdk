@@ -9,11 +9,14 @@ describe('paymentLink', () => {
     const callbackUrl = 'https://example.org/return';
     const expirationMinutes = 30;
     const currency = 'USD';
+    const apiKey = 'bold-api-key';
+
+    beforeEach(() => {
+      process.env.BOLD_API_URL = 'https://example.org';
+    });
 
     it('should return a payment link', async () => {
-      process.env.BOLD_API_URL = 'https://example.org';
-
-      const response = await paymentLink.create('bold-api-key', {
+      const response = await paymentLink.create(apiKey, {
         amountType,
         description,
         payerEmail,
@@ -38,9 +41,7 @@ describe('paymentLink', () => {
     });
 
     it('should not send amount if type is not CLOSE', async () => {
-      process.env.BOLD_API_URL = 'https://example.org';
-
-      const response = await paymentLink.create('bold-api-key', {
+      const response = await paymentLink.create(apiKey, {
         amountType: 'OPEN',
         description,
         payerEmail,
@@ -54,6 +55,24 @@ describe('paymentLink', () => {
 
       expect(url).toBe('https://example.org/online/link/v1');
       expect(body.amount).toBeUndefined();
+    });
+
+    it('should send error if amount type is not CLOSE or OPEN', async () => {
+      try {
+        await paymentLink.create(apiKey, {
+          amountType: 'INVALID',
+          description,
+          payerEmail,
+          amount,
+          callbackUrl,
+          expirationMinutes,
+          currency,
+        });
+      } catch (error) {
+        expect(error.message).toBe(
+          'Invalid amount type, must be CLOSE or OPEN',
+        );
+      }
     });
   });
 });

@@ -1,4 +1,4 @@
-const paymentMethodsService = require('../services/payment_methods');
+const { paymentMethodsService } = require('../services');
 
 const paymentMethods = {
   list: async apiKey => paymentMethodsService.list(apiKey),
