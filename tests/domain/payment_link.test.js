@@ -40,9 +40,8 @@ describe('paymentLink', () => {
       expect(body.payer_email).toBe(payerEmail);
     });
 
-    it('should not send amount if type is not CLOSE', async () => {
+    it('should not send amount if type is OPEN', async () => {
       const response = await paymentLink.create(apiKey, {
-        amountType: 'OPEN',
         description,
         payerEmail,
         amount,
@@ -55,6 +54,30 @@ describe('paymentLink', () => {
 
       expect(url).toBe('https://example.org/online/link/v1');
       expect(body.amount).toBeUndefined();
+    });
+
+    it('should set default values if not provided', async () => {
+      const response = await paymentLink.create(apiKey, {
+        amountType,
+      });
+
+      const { options } = response;
+      const body = JSON.parse(options.body);
+
+      const expirationMinutes = 30;
+      const currentNanoseconds = Date.now() * 1e6;
+      const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
+      const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
+
+      expect(body.amount_type).toBe('CLOSE');
+      expect(body.amount.total_amount).toBe(0);
+      expect(body.amount.currency).toBe('COP');
+      expect(Math.abs(body.expiration_date - futureNanoseconds)).toBeLessThan(
+        0.1 * 1e9,
+      );
+      expect(body.callback_url).toBe('');
+      expect(body.payer_email).toBe('');
+      expect(body.description).toBe('');
     });
 
     it('should send error if amount type is not CLOSE or OPEN', async () => {
