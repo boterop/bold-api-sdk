@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 (13.01.2025)
+
+- Add typescript definitions
+- Api key instructions in readme
+
 ## 0.1.2 (10.01.2025)
 
 - Fix readme package name
