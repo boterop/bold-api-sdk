@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/boterop/bold/badge.svg?branch=main)](https://coveralls.io/github/boterop/bold?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/boterop/bold-api-sdk/badge.svg?branch=add-types)](https://coveralls.io/github/boterop/bold-api-sdk?branch=add-types)
 ![NPM Type Definitions](https://img.shields.io/npm/types/bold-api-sdk)
 
 # bold-api-sdk
