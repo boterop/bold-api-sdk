@@ -12,6 +12,8 @@ npm install bold-api-sdk
 
 ## Usage
 
+[Create api key](https://www.developers.bold.co/pagos-en-linea/llaves-de-integracion)
+
 ### Payment Link
 
 ```js
