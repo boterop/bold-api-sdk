@@ -25,9 +25,11 @@ const response = await paymentLink.create('bold-identity-key', {
   description: 'Payment for order order-id',
   payerEmail: 'test@example.org',
   amount: 300,
+  tipAmount: 0,
   currency: 'USD',
   callbackUrl: 'https://example.org/return',
   expirationMinutes: 30,
+  iva: 19,
 });
 
 console.log(response);
