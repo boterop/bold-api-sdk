@@ -29,7 +29,7 @@ const response = await paymentLink.create('bold-identity-key', {
   currency: 'USD',
   callbackUrl: 'https://example.org/return',
   expirationMinutes: 30,
-  iva: true,
+  iva: 19,
 });
 
 console.log(response);
@@ -46,7 +46,6 @@ const response = await paymentLink.create('bold-identity-key', {
   payerEmail: 'test@example.org',
   callbackUrl: 'https://example.org/return',
   expirationMinutes: 30,
-  iva: false,
 });
 
 console.log(response);

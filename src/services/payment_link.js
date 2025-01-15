@@ -22,22 +22,21 @@ exports.create = async (
   callbackUrl = callbackUrl || null;
   expirationMinutes = expirationMinutes || 30;
   currency = currency || 'COP';
-  iva = iva || false;
+  iva = iva || 0;
 
   if (amountType !== 'CLOSE' && amountType !== 'OPEN') {
     throw new Error('Invalid amount type, must be CLOSE or OPEN');
   }
 
-  const ivaValue = 0.19;
+  const ivaValue = iva / 100;
 
   const currentNanoseconds = Date.now() * 1e6;
   const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
   const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
 
-  const hasTaxes = iva;
-  const ivaTax = iva
-    ? { type: 'VAT', base: amount, value: amount * ivaValue }
-    : null;
+  const hasTaxes = iva > 0;
+  const ivaTax =
+    iva > 0 ? { type: 'VAT', base: amount, value: amount * ivaValue } : null;
 
   const amountOpt =
     amountType === 'CLOSE'

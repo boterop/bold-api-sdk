@@ -67,7 +67,7 @@ describe('paymentLink', () => {
         amountType: 'CLOSE',
         amount: 1000,
         tipAmount: 100,
-        iva: true,
+        iva: 19,
       });
 
       const { payload, errors } = response;

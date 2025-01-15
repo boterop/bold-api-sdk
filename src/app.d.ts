@@ -8,7 +8,7 @@ declare module 'bold-api-sdk' {
     callbackUrl?: string;
     expirationMinutes?: number;
     currency?: string;
-    iva?: boolean;
+    iva?: number;
   }
 
   export interface LinkResponse {
