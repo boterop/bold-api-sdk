@@ -5,6 +5,18 @@ describe('httpClient', () => {
   const ENDPOINT = '/test';
   const API_KEY = 'api-key';
 
+  beforeEach(() => {
+    global.fetch = jest.fn((url, options) =>
+      Promise.resolve({
+        json: () => Promise.resolve({ url, options }),
+      }),
+    );
+  });
+
+  afterEach(() => {
+    global.fetch.mockRestore();
+  });
+
   describe('fetch', () => {
     it('should return a response', async () => {
       const response = await httpClient.fetch({

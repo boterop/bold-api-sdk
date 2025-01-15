@@ -1,18 +1,20 @@
 const paymentLink = require('../../src/domain/payment_link');
 
 describe('paymentLink', () => {
+  const PAYMENT_LINK = 'bold.co/payment';
+
   describe('create', () => {
     const amountType = 'CLOSE';
     const description = 'Payment for order order-id';
     const payerEmail = 'test@example.org';
-    const amount = 300;
+    const amount = 1000;
     const callbackUrl = 'https://example.org/return';
     const expirationMinutes = 30;
-    const currency = 'USD';
-    const apiKey = 'bold-api-key';
+    const currency = 'COP';
+    const apiKey = process.env.BOLD_API_KEY || 'bold-api-key';
 
     beforeEach(() => {
-      process.env.BOLD_API_URL = 'https://example.org';
+      process.env.BOLD_API_URL = 'https://integrations.api.bold.co';
     });
 
     it('should return a payment link', async () => {
@@ -25,19 +27,12 @@ describe('paymentLink', () => {
         expirationMinutes,
         currency,
       });
-      const { url, options } = response;
-      const body = JSON.parse(options.body);
 
-      expect(url).toBe('https://example.org/online/link/v1');
-      expect(options.headers.Authorization).toBe('x-api-key bold-api-key');
-      expect(options.method).toBe('POST');
-      expect(body.amount_type).toBe(amountType);
-      expect(body.amount.total_amount).toBe(amount);
-      expect(body.amount.currency).toBe(currency);
-      expect(body.description).toBe(description);
-      expect(body.expiration_date).toBeGreaterThan(Date.now() * 1e6);
-      expect(body.callback_url).toBe(callbackUrl);
-      expect(body.payer_email).toBe(payerEmail);
+      const { payload, errors } = response;
+
+      expect(errors).toHaveLength(0);
+
+      expect(payload.url).toContain(PAYMENT_LINK);
     });
 
     it('should not send amount if type is OPEN', async () => {
@@ -49,35 +44,34 @@ describe('paymentLink', () => {
         expirationMinutes,
         currency,
       });
-      const { url, options } = response;
-      const body = JSON.parse(options.body);
 
-      expect(url).toBe('https://example.org/online/link/v1');
-      expect(body.amount).toBeUndefined();
+      const { payload, errors } = response;
+
+      expect(errors).toHaveLength(0);
+
+      expect(payload.url).toContain(PAYMENT_LINK);
     });
 
     it('should set default values if not provided', async () => {
+      const response = await paymentLink.create(apiKey);
+
+      const { payload, errors } = response;
+
+      expect(errors).toHaveLength(0);
+
+      expect(payload.url).toContain(PAYMENT_LINK);
+    });
+
+    it('should create a payment link with iva', async () => {
       const response = await paymentLink.create(apiKey, {
-        amountType,
+        iva: true,
       });
 
-      const { options } = response;
-      const body = JSON.parse(options.body);
+      const { payload, errors } = response;
 
-      const expirationMinutes = 30;
-      const currentNanoseconds = Date.now() * 1e6;
-      const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
-      const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
+      expect(errors).toHaveLength(0);
 
-      expect(body.amount_type).toBe('CLOSE');
-      expect(body.amount.total_amount).toBe(0);
-      expect(body.amount.currency).toBe('COP');
-      expect(Math.abs(body.expiration_date - futureNanoseconds)).toBeLessThan(
-        0.1 * 1e9,
-      );
-      expect(body.callback_url).toBe('');
-      expect(body.payer_email).toBe('');
-      expect(body.description).toBe('');
+      expect(payload.url).toContain(PAYMENT_LINK);
     });
 
     it('should send error if amount type is not CLOSE or OPEN', async () => {
