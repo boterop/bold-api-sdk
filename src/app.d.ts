@@ -1,12 +1,14 @@
 declare module 'bold-api-sdk' {
   export interface Order {
-    amountType: 'OPEN' | 'CLOSE';
-    description: string;
-    payerEmail: string;
-    amount: number;
-    callbackUrl: string;
-    expirationMinutes: number;
-    currency: string;
+    amountType?: 'OPEN' | 'CLOSE';
+    description?: string;
+    payerEmail?: string;
+    amount?: number;
+    tipAmount?: number;
+    callbackUrl?: string;
+    expirationMinutes?: number;
+    currency?: string;
+    iva?: number;
   }
 
   export interface LinkResponse {

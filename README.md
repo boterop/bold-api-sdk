@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/boterop/bold/badge.svg?branch=main)](https://coveralls.io/github/boterop/bold?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/boterop/bold-api-sdk/badge.svg?branch=add-types)](https://coveralls.io/github/boterop/bold-api-sdk?branch=add-types)
 ![NPM Type Definitions](https://img.shields.io/npm/types/bold-api-sdk)
 
 # bold-api-sdk
@@ -25,9 +25,11 @@ const response = await paymentLink.create('bold-identity-key', {
   description: 'Payment for order order-id',
   payerEmail: 'test@example.org',
   amount: 300,
+  tipAmount: 0,
   currency: 'USD',
   callbackUrl: 'https://example.org/return',
   expirationMinutes: 30,
+  iva: 19,
 });
 
 console.log(response);

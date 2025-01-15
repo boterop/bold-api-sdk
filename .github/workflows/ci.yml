@@ -17,6 +17,9 @@ jobs:
       - name: Check Format
         run: yarn check-format
       - name: Run Tests
-        run: yarn test
+        run: |
+          echo BOLD_API_KEY=${{ secrets.BOLD_API_KEY }} > .env.test
+          yarn test
+          rm -Rf .env.test
       - name: Coveralls
         uses: coverallsapp/github-action@v2

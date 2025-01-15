@@ -1,6 +1,6 @@
 {
   "name": "bold-api-sdk",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A Node.js library for interacting with the Bold API, providing seamless integration to manage payments, customers, and transactions efficiently.",
   "main": "src/app.js",
   "repository": "https://github.com/boterop/bold-api-sdk",
@@ -9,7 +9,7 @@
   "types": "src/app.d.ts",
   "scripts": {
     "start": "node --env-file .env --watch src/app.js",
-    "test": "NODE_ENV=test node --experimental-vm-modules --max-old-space-size=8192 node_modules/jest/bin/jest.js --detectOpenHandles --runInBand",
+    "test": "NODE_ENV=test node --experimental-vm-modules --max-old-space-size=8192 node_modules/jest/bin/jest.js --runInBand",
     "format": "prettier --write .",
     "check-format": "prettier -c .",
     "lint": "eslint ."
