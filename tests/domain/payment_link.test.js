@@ -2,6 +2,26 @@ const paymentLink = require('../../src/domain/payment_link');
 
 describe('paymentLink', () => {
   const PAYMENT_LINK = 'bold.co/payment';
+  const apiKey = process.env.BOLD_API_KEY || 'bold-api-key';
+
+  describe('get', () => {
+    it('should return a payment link', async () => {
+      const { payload } = await paymentLink.create();
+      const { payment_link: id } = payload;
+
+      const { status } = await paymentLink.get(apiKey, id);
+
+      expect(status).toBe('ACTIVE');
+    });
+
+    it('should return an error if payment link does not exist', async () => {
+      const invalidId = 'non-existent-id';
+      const { errors } = await paymentLink.get(apiKey, invalidId);
+
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errors).toBe(`Link ${invalidId} not valid`);
+    });
+  });
 
   describe('create', () => {
     const amountType = 'CLOSE';
@@ -11,7 +31,6 @@ describe('paymentLink', () => {
     const callbackUrl = 'https://example.org/return';
     const expirationMinutes = 30;
     const currency = 'COP';
-    const apiKey = process.env.BOLD_API_KEY || 'bold-api-key';
 
     beforeEach(() => {
       process.env.BOLD_API_URL = 'https://integrations.api.bold.co';

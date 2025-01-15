@@ -1,5 +1,13 @@
 const { httpClient } = require('../shared');
 
+const URL = '/online/link/v1';
+
+exports.get = async (apiKey, id) =>
+  httpClient.fetch({
+    endpoint: `${URL}/${id}`,
+    apiKey,
+  });
+
 exports.create = async (
   apiKey,
   {
@@ -51,7 +59,7 @@ exports.create = async (
       : {};
 
   return httpClient.fetch({
-    endpoint: '/online/link/v1',
+    endpoint: URL,
     apiKey,
     options: {
       method: 'POST',
