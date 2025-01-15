@@ -1,6 +1,8 @@
 declare module 'bold-api-sdk' {
+  export type AmountType = 'OPEN' | 'CLOSE';
+
   export interface Order {
-    amountType?: 'OPEN' | 'CLOSE';
+    amountType?: AmountType;
     description?: string;
     payerEmail?: string;
     amount?: number;
@@ -37,9 +39,34 @@ declare module 'bold-api-sdk' {
     errors: BoldError[];
   }
 
+  export interface Tax {
+    type: string;
+    base: number;
+    value: number;
+  }
+
+  export interface GetLinkResponse {
+    id: string;
+    total: number;
+    status: 'ACTIVE' | 'PROCESSING' | 'PAID' | 'EXPIRED';
+    expiration_date: number;
+    description: string | null;
+    api_version: number;
+    subtotal: number;
+    tip_amount: number;
+    taxes: Tax[];
+    creation_date: number;
+    payment_method: string | null;
+    transaction_id: string | null;
+    amount_type: AmountType;
+    is_sandbox: boolean;
+    callback_url: string | null;
+  }
+
   export type BoldApiKey = string | undefined | null;
 
   export const paymentLink: {
+    get: (apiKey: BoldApiKey, id: string) => Promise<GetLinkResponse>;
     create: (
       apiKey: BoldApiKey,
       order: Order,

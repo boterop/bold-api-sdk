@@ -17,6 +17,40 @@ npm install bold-api-sdk
 
 ### Payment Link
 
+## Get
+
+```js
+import { paymentLink } from 'bold-api-sdk';
+
+const response = await paymentLink.get('bold-identity-key', 'LNK_EX95SG8SZT');
+
+console.log(response);
+```
+
+#### Response
+
+```json
+{
+  "id": "LNK_EX95SG8SZT",
+  "total": 0,
+  "status": "ACTIVE",
+  "expiration_date": 1736984191779000000,
+  "description": null,
+  "api_version": 1,
+  "subtotal": 0,
+  "tip_amount": 0,
+  "taxes": [],
+  "creation_date": 1736982392918743600,
+  "payment_method": null,
+  "transaction_id": null,
+  "amount_type": "OPEN",
+  "is_sandbox": true,
+  "callback_url": null
+}
+```
+
+## Create
+
 ```js
 import { paymentLink } from 'bold-api-sdk';
 
