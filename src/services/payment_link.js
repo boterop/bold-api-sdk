@@ -42,7 +42,7 @@ exports.create = async (
     amountType === 'CLOSE'
       ? {
           amount: {
-            total_amount: amount * (iva ? ivaValue + 1 : 1) + tipAmount,
+            total_amount: amount * (ivaValue + 1) + tipAmount,
             currency,
             tip_amount: tipAmount,
             taxes: hasTaxes ? [ivaTax] : [],
