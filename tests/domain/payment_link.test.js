@@ -64,6 +64,9 @@ describe('paymentLink', () => {
 
     it('should create a payment link with iva', async () => {
       const response = await paymentLink.create(apiKey, {
+        amountType: 'CLOSE',
+        amount: 1000,
+        tipAmount: 100,
         iva: true,
       });
 

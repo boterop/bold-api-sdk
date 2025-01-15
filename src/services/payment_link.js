@@ -17,8 +17,8 @@ exports.create = async (
   amountType = amountType || 'OPEN';
   description = description || '';
   payerEmail = payerEmail || '';
-  amount = amount || 0;
-  tipAmount = tipAmount || 0;
+  amount = Math.abs(amount) || 0;
+  tipAmount = Math.abs(tipAmount) || 0;
   callbackUrl = callbackUrl || null;
   expirationMinutes = expirationMinutes || 30;
   currency = currency || 'COP';
@@ -28,25 +28,25 @@ exports.create = async (
     throw new Error('Invalid amount type, must be CLOSE or OPEN');
   }
 
+  const ivaValue = 0.19;
+
   const currentNanoseconds = Date.now() * 1e6;
   const minutesInNanoseconds = expirationMinutes * 60 * 1e9;
   const futureNanoseconds = currentNanoseconds + minutesInNanoseconds;
 
-  const tip = Math.abs(tipAmount);
-  const totalAmount = Math.abs(amount) + tip;
-
-  const taxes = iva
-    ? { type: 'VAT', base: totalAmount, value: totalAmount * 0.19 }
-    : {};
+  const hasTaxes = iva;
+  const ivaTax = iva
+    ? { type: 'VAT', base: amount, value: amount * ivaValue }
+    : null;
 
   const amountOpt =
     amountType === 'CLOSE'
       ? {
           amount: {
-            total_amount: totalAmount,
+            total_amount: amount * (iva ? ivaValue + 1 : 1) + tipAmount,
             currency,
-            tip_amount: tip,
-            taxes,
+            tip_amount: tipAmount,
+            taxes: hasTaxes ? [ivaTax] : [],
           },
         }
       : {};
