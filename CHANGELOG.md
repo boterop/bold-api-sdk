@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (15.01.2025)
+
+- Get payment link info
+
 ## 0.1.4 (15.01.2025)
 
 - Add iva and tip amount to payment link
