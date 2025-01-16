@@ -2,7 +2,7 @@
 
 ## 0.2.0 (15.01.2025)
 
-- Get payment link info 
+- Get payment link info
 
 ## 0.1.4 (15.01.2025)
 
