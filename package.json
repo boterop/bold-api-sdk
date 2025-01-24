@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node --env-file .env --watch src/app.js",
     "test": "NODE_ENV=test node --experimental-vm-modules --max-old-space-size=8192 node_modules/jest/bin/jest.js --runInBand",
+    "build": "mkdir -p dist && cp -r src/ dist/ && cp package.json dist/ && cp README.md dist/ && cp LICENSE dist/ && cp CHANGELOG.md dist/ && cd dist && npm i --omit=dev",
     "format": "prettier --write .",
     "check-format": "prettier -c .",
     "lint": "eslint ."
