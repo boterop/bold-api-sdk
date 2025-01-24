@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 (24.01.2025)
+
+- Reduce package size
+
 ## 0.2.0 (15.01.2025)
 
 - Get payment link info
