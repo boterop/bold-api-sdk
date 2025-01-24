@@ -15,7 +15,14 @@ jobs:
         with:
           node-version: '23.x.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm publish
+      - run: npm run build
+      - name: Prepare dist
+        run: |
+          cd dist
+          npm ci
+      - name: Publish package
+        run: |
+          cd dist
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
