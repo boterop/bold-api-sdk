@@ -1,13 +1,14 @@
 name: Publish package to npm
+
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types: closed
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   build:
-    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +22,6 @@ jobs:
           npm ci
       - run: |
           cd dist
-          npm publish
+          npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
