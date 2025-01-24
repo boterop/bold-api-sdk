@@ -1,14 +1,13 @@
 name: Publish package to npm
-
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: closed
 
 jobs:
   build:
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,11 +16,13 @@ jobs:
           node-version: '23.x.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm run build
-      - run: |
+      - name: Prepare dist
+        run: |
           cd dist
           npm ci
-      - run: |
+      - name: Publish package
+        run: |
           cd dist
-          npm ci
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
